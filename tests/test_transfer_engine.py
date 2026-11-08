@@ -1,5 +1,5 @@
-
 import unittest
+from uuid import uuid4
 
 from backend.accounts import Account
 from backend.transaction import Transaction
@@ -20,14 +20,11 @@ class TransferEngineTests(unittest.TestCase):
         self.engine.register_account(self.recipient)
 
         self.transaction = Transaction.create(
-            "ACC001",
-            "ACC002",
-            2500
+            "ACC001", "ACC002", 2500
         )
 
     def test_successful_transfer(self):
         self.engine.execute_transfer(self.transaction)
-
         self.assertEqual(self.sender.balance_minor, 7500)
         self.assertEqual(self.recipient.balance_minor, 7500)
 
@@ -35,7 +32,6 @@ class TransferEngineTests(unittest.TestCase):
         engine = TransferEngine(
             authorization_verifier=lambda transaction: False
         )
-
         engine.register_account(self.sender)
         engine.register_account(self.recipient)
 
@@ -53,6 +49,25 @@ class TransferEngineTests(unittest.TestCase):
 
         self.assertEqual(self.sender.balance_minor, 7500)
         self.assertEqual(self.recipient.balance_minor, 7500)
+
+
+class TransactionValidationTests(unittest.TestCase):
+
+    def test_negative_amount_rejected(self):
+        with self.assertRaises(ValueError):
+            Transaction(uuid4(), "ACC001", "ACC002", -500)
+
+    def test_zero_amount_rejected(self):
+        with self.assertRaises(ValueError):
+            Transaction(uuid4(), "ACC001", "ACC002", 0)
+
+    def test_same_account_rejected(self):
+        with self.assertRaises(ValueError):
+            Transaction(uuid4(), "ACC001", "ACC001", 500)
+
+    def test_invalid_transaction_id_rejected(self):
+        with self.assertRaises(ValueError):
+            Transaction("not-a-uuid", "ACC001", "ACC002", 500)
 
 
 if __name__ == "__main__":
