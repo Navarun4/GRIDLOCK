@@ -1,58 +1,65 @@
-\# GRIDLOCK
+# GRIDLOCK
+### Defensive Transaction Authorization & Security Platform
 
+Gridlock is an experimental security project exploring how sensitive financial actions can remain protected even when account credentials are compromised.
 
+Its central principle is simple:
 
-\### Defensive Transaction Authorization \& Security Platform
+**Possession of credentials must not automatically grant authority to perform sensitive actions.**
 
+## The Problem
 
+Compromised credentials can allow attackers to initiate unauthorized financial transactions. Gridlock explores an additional layer of transaction-specific authorization to help prevent this.
 
-Gridlock is a security-focused project exploring how sensitive
+## Current Implementation
 
-actions can remain protected even when account credentials
+The initial prototype includes:
 
-are compromised.
+- **Transaction Model:** Validated transaction objects with unique UUIDs.
+- **Account Model:** Account representation with balance and currency information.
+- **Transfer Engine:** Handles transfers between registered accounts.
+- **Authorization Verification:** Rejects transactions without successful authorization.
+- **Replay Protection:** Prevents an already-executed transaction ID from being reused.
+- **Security Tests:** Tests for invalid transactions, unauthorized transfers, replay attempts and successful execution.
 
+## Planned Architecture
 
+- **Trusted-Device Cryptographic Approval:** Transaction-specific approval using established cryptographic standards.
+- **AEGIS:** An AI-assisted threat intelligence and risk analysis component.
+- **Pandora's Box:** A defensive containment and incident-response component.
 
-\## Core Components
+These components are planned and are not yet implemented.
 
+## Technology
 
+- Python
+- Git and GitHub
+- Python unittest framework
 
-\- Transaction Authorization Engine
+## Running the Tests
 
-\- Trusted-Device Cryptographic Approval
+On Windows, from the project root:
 
-\- AEGIS - AI-assisted Threat Intelligence
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
 
-\- Pandora's Box - Defensive Containment
+## Development Status
 
+**Phase 1 — Foundation and Architecture**
 
+The initial transaction models, transfer engine, authorization checks and foundational security tests are implemented.
 
-\## Development Status
+## Security Scope
 
+- Synthetic accounts and transactions only.
+- No connection to real banking systems.
+- Established cryptographic standards rather than custom cryptography.
+- Security testing before feature expansion.
+- Not intended for production financial use.
 
+## Vision
 
-Phase 1: Foundation and Architecture
+Gridlock aims to explore a stronger model of digital transaction security where authentication, authorization and transaction approval are treated as distinct security responsibilities.
 
-
-
-\## Security Principle
-
-
-
-Possession of credentials must not automatically
-
-grant authority to perform sensitive actions.
-
-
-
-\## Development Approach
-
-
-
-\- Synthetic accounts and transactions only.
-
-\- Established cryptographic standards.
-
-\- Security testing before expansion.
-
+*Built as an ongoing independent engineering project.*
